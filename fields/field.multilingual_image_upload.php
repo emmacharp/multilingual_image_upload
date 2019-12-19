@@ -241,8 +241,6 @@
 			$langs = FLang::getLangs();
 
 			$wrapper->setAttribute('class', $wrapper->getAttribute('class').' field-multilingual');
-			// $container = new XMLElement('div', null, array('class' => 'container'));
-
 
 			/*------------------------------------------------------------------------------------------------*/
 			/*  Label  */
