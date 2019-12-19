@@ -241,7 +241,7 @@
 			$langs = FLang::getLangs();
 
 			$wrapper->setAttribute('class', $wrapper->getAttribute('class').' field-multilingual');
-			$container = new XMLElement('div', null, array('class' => 'container'));
+			// $container = new XMLElement('div', null, array('class' => 'container'));
 
 
 			/*------------------------------------------------------------------------------------------------*/
@@ -285,20 +285,38 @@
 			$label->appendChild(new XMLElement('i', $labeliValue . $optional, array(
 				'title' => $title
 			)));
-			$container->appendChild($label);
+
+
+			/*------------------------------------------------------------------------------------------------*/
+			/*  Errors  */
+			/*------------------------------------------------------------------------------------------------*/
+
+			if (!@is_dir(DOCROOT.$this->get('destination').'/')) {
+				$flagWithError = __('The destination directory, <code>%s</code>, does not exist.', array($this->get('destination')));
+			}
+			else if (!$flagWithError && !is_writable(DOCROOT.$this->get('destination').'/')) {
+				$flagWithError = __('Destination folder, <code>%s</code>, is not writable. Please check permissions.', array($this->get('destination')));
+			}
+
+			if ($flagWithError != null) {
+				$wrapper->appendChild(Widget::Error($label, $flagWithError));
+			}
+			else {
+				$wrapper->appendChild($label);
+			}
 
 
 			/*------------------------------------------------------------------------------------------------*/
 			/*  Tabs  */
 			/*------------------------------------------------------------------------------------------------*/
 
-			$ul = new XMLElement('ul', null, array('class' => 'tabs'));
+			$ul = new XMLElement('ul', null, array('class' => 'tabs multilingualtabs'));
 			foreach ($langs as $lc) {
 				$li = new XMLElement('li', $lc, array('class' => $lc));
 				$lc === $main_lang ? $ul->prependChild($li) : $ul->appendChild($li);
 			}
 
-			$container->appendChild($ul);
+			$wrapper->appendChild($ul);
 
 
 			/*------------------------------------------------------------------------------------------------*/
@@ -334,26 +352,7 @@
 				$div->setAttribute('data-viewport-height', $this->get('viewport_height'));
 				$div->setAttribute('id', $this->get('element_name') . '-' . $lc);
 
-				$container->appendChild($div);
-			}
-
-
-			/*------------------------------------------------------------------------------------------------*/
-			/*  Errors  */
-			/*------------------------------------------------------------------------------------------------*/
-
-			if (!@is_dir(DOCROOT.$this->get('destination').'/')) {
-				$flagWithError = __('The destination directory, <code>%s</code>, does not exist.', array($this->get('destination')));
-			}
-			else if (!$flagWithError && !is_writable(DOCROOT.$this->get('destination').'/')) {
-				$flagWithError = __('Destination folder, <code>%s</code>, is not writable. Please check permissions.', array($this->get('destination')));
-			}
-
-			if ($flagWithError != null) {
-				$wrapper->appendChild(Widget::Error($container, $flagWithError));
-			}
-			else {
-				$wrapper->appendChild($container);
+				$wrapper->appendChild($div);
 			}
 		}
 
