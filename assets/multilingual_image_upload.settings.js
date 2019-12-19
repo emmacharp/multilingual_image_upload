@@ -57,7 +57,6 @@
 				var $header = $field.find('.frame-header');
 				$header.append(
 					$('<a />').attr('class', 'field-multilingual_image_upload-converter debug')
-						.attr('style', 'right: 11rem;font-size: 0.9em;')
 						.text(Symphony.Language.get('Convert to multilingual'))
 				);
 			}).on('click', '.field-multilingual_image_upload-converter', function (e) {
