@@ -339,6 +339,7 @@
 
 				if ($data[$file]) {
 					$filename = $this->get('destination') . '/' . $data[$file];
+					$div->setAttribute('data-image', 'yes');
 				}
 
 				$div->appendChild(Widget::Input('fields' . $fieldnamePrefix . '[' . $this->get('element_name') . '][' . $lc . '][image]' . $fieldnamePostfix, $filename, ($filename ? 'hidden' : 'file'), array('class' => 'image-upload-input')));
